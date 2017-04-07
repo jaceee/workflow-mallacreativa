@@ -1,0 +1,64 @@
+version: '3.1'
+
+volumes:
+  postgresql:
+    driver: local
+
+  redmine:
+    driver: local
+
+services:
+  postgresql:
+    restart: always
+    image: sameersbn/postgresql:9.6-2
+    environment:
+      - DB_USER=rdmn
+      - DB_PASS=dIa84!j.g
+      - DB_NAME=redmine
+    volumes:
+      - postgresql:/var/lib/postgresql
+
+  redmine:
+    restart: always
+    image: sameersbn/redmine:3.3.2-1
+    environment:
+    - TZ=America/Bogota
+
+    - DB_ADAPTER=postgresql
+    - DB_HOST=postgresql
+    - DB_PORT=5432
+    - DB_USER=rdmn
+    - DB_PASS=dIa84!j.g
+    - DB_NAME=redmine
+
+    - REDMINE_PORT=5555
+    - REDMINE_HTTPS=false
+    - REDMINE_SECRET_TOKEN=jk1usfkj19sfn1r094tkl56ags
+
+    - REDMINE_CONCURRENT_UPLOADS=2
+
+    - REDMINE_BACKUP_SCHEDULE=daily
+    - REDMINE_BACKUP_EXPIRY=604800
+
+    - SMTP_ENABLED=false
+    - SMTP_METHOD=smtp
+    - SMTP_DOMAIN=www.example.com
+    - SMTP_HOST=smtp.gmail.com
+    - SMTP_PORT=587
+    - SMTP_USER=mailer@example.com
+    - SMTP_PASS=password
+    - SMTP_STARTTLS=true
+    - SMTP_AUTHENTICATION=:login
+
+    - IMAP_ENABLED=false
+    - IMAP_HOST=imap.gmail.com
+    - IMAP_PORT=993
+    - IMAP_USER=mailer@example.com
+    - IMAP_PASS=password
+    - IMAP_SSL=true
+    - IMAP_INTERVAL=30
+
+    ports:
+    - "5555:80"
+    volumes:
+    - redmine:/home/redmine/data
