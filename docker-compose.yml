@@ -32,7 +32,7 @@ services:
     - DB_NAME=redmine
 
     - REDMINE_PORT=5555
-    - REDMINE_HTTPS=false
+    - REDMINE_HTTPS=true
     - REDMINE_SECRET_TOKEN=jk1usfkj19sfn1r094tkl56ags
 
     - REDMINE_CONCURRENT_UPLOADS=2
@@ -47,7 +47,12 @@ services:
     - IMAP_ENABLED=true
     - IMAP_HOST=mail.privateemail.com
 
+    - SSL_CERTIFICATE_PATH=/certs/cert.pem
+    - SSL_KEY_PATH=/certs/privkey.pem
+    - SSL_DHPARAM_PATH=/certs/dhparam.pem
+
     ports:
     - "5555:80"
     volumes:
     - redmine:/home/redmine/data
+    - ./certs:/certs
