@@ -32,7 +32,7 @@ services:
     environment:
       - DB_USER=rdmn
       - DB_PASS=dIa84!j.g
-      - DB_NAME=redmine,gitlab
+      - DB_NAME=redmine
     volumes:
       - postgresql:/var/lib/postgresql
 
@@ -60,45 +60,45 @@ services:
     volumes:
       - redmine:/home/redmine/data
 
-  gitlab:
-    restart: always
-    image: sameersbn/gitlab:9.0.5
-    environment:
-      - DB_USER=rdmn
-      - DB_PASS=dIa84!j.g
-      - DB_NAME=gitlab
-
-      - TZ=America/Bogota
-      - GITLAB_TIMEZONE=Bogota
-
-      - GITLAB_HTTPS=true
-
-      - GITLAB_HOST=git.mllcrtv.me
-      - GITLAB_PORT=443
-      - GITLAB_SSH_PORT=10022
-      - GITLAB_SECRETS_DB_KEY_BASE=jd92kg92mdgi2emrdwgi2ermdi2efmwdi2efjdwfi2ef
-      - GITLAB_SECRETS_SECRET_KEY_BASE=mfdi2efifi2efi2gwd92efmf9dwi2efidf92efm9
-      - GITLAB_SECRETS_OTP_KEY_BASE=sfi12wfdfmg9j9hhuyhsd2efinu8dnf280j307234ni
-
-      - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
-
-      - GITLAB_EMAIL=system@mllcrtv.me
-      - GITLAB_EMAIL_REPLY_TO=system@mllcrtv.me
-      - GITLAB_INCOMING_EMAIL_ADDRESS=system@mllcrtv.me
-
-      - GITLAB_BACKUP_SCHEDULE=daily
-      - GITLAB_BACKUP_EXPIRY=604800
-
-      - SMTP_HOST=mail.privateemail.com
-      - SMTP_USER=system@mllcrtv.me
-      - SMTP_PASS=mllcrtvsystem
-
-      - IMAP_ENABLED=true
-      - IMAP_HOST=mail.privateemail.com
-    ports:
-      - "10022:22"
-    volumes:
-      - gitlab:/home/git/data
+  # gitlab:
+  #   restart: always
+  #   image: sameersbn/gitlab:9.0.5
+  #   environment:
+  #     - DB_USER=rdmn
+  #     - DB_PASS=dIa84!j.g
+  #     - DB_NAME=redmine
+  #
+  #     - TZ=America/Bogota
+  #     - GITLAB_TIMEZONE=Bogota
+  #
+  #     - GITLAB_HTTPS=true
+  #
+  #     - GITLAB_HOST=git.mllcrtv.me
+  #     - GITLAB_PORT=443
+  #     - GITLAB_SSH_PORT=10022
+  #     - GITLAB_SECRETS_DB_KEY_BASE=jd92kg92mdgi2emrdwgi2ermdi2efmwdi2efjdwfi2ef
+  #     - GITLAB_SECRETS_SECRET_KEY_BASE=mfdi2efifi2efi2gwd92efmf9dwi2efidf92efm9
+  #     - GITLAB_SECRETS_OTP_KEY_BASE=sfi12wfdfmg9j9hhuyhsd2efinu8dnf280j307234ni
+  #
+  #     - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+  #
+  #     - GITLAB_EMAIL=system@mllcrtv.me
+  #     - GITLAB_EMAIL_REPLY_TO=system@mllcrtv.me
+  #     - GITLAB_INCOMING_EMAIL_ADDRESS=system@mllcrtv.me
+  #
+  #     - GITLAB_BACKUP_SCHEDULE=daily
+  #     - GITLAB_BACKUP_EXPIRY=604800
+  #
+  #     - SMTP_HOST=mail.privateemail.com
+  #     - SMTP_USER=system@mllcrtv.me
+  #     - SMTP_PASS=mllcrtvsystem
+  #
+  #     - IMAP_ENABLED=true
+  #     - IMAP_HOST=mail.privateemail.com
+  #   ports:
+  #     - "10022:22"
+  #   volumes:
+  #     - gitlab:/home/git/data
 
   nginx:
     restart: always
@@ -113,6 +113,7 @@ services:
   openldap:
     restart: always
     image: osixia/openldap:1.1.8
+    command: --copy-service
     environment:
       - LDAP_ORGANISATION=Malla Creativa
       - LDAP_DOMAIN=ldaps.mllcrtv.me
