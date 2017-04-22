@@ -13,6 +13,9 @@ volumes:
   gitlab:
     driver: local
 
+  openldap:
+    driver: local
+
 services:
   redis:
     restart: always
@@ -109,3 +112,28 @@ services:
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
       - ./certs:/certs
+
+  openldap:
+    restart: always
+    image: osixia/openldap:1.1.8
+    environment:
+      - LDAP_ORGANISATION=Malla Creativa
+      - LDAP_DOMAIN=ldaps.mllcrtv.me
+      - LDAP_ADMIN_PASSWORD=jr82kdf2kr
+      - LDAP_TLS=true
+      - LDAP_TLS_CRT_FILENAME=cert.pem
+      - LDAP_TLS_KEY_FILENAME=privkey.pem
+      - LDAP_TLS_ENFORCE=true
+    ports:
+      - "389:389"
+      - "636:636"
+    hostname: "ldaps.mllcrtv.me"
+    volumes:
+      - openldap:/var/lib/ldap
+      - ./certs:/container/service/slapd/assets/certs/
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=true
