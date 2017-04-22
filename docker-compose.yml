@@ -95,9 +95,6 @@ services:
       - SMTP_HOST=mail.privateemail.com
       - SMTP_USER=system@mllcrtv.me
       - SMTP_PASS=mllcrtvsystem
-
-      - IMAP_ENABLED=true
-      - IMAP_HOST=mail.privateemail.com
     ports:
       - "10022:22"
     volumes:
