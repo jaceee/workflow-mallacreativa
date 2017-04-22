@@ -42,7 +42,9 @@ services:
     environment:
       - TZ=America/Bogota
 
+      - DB_ADAPTER=postgresql
       - DB_HOST=postgresql
+      - DB_PORT=5432
       - DB_USER=usr1234132
       - DB_PASS=mj2jir1ih
       - DB_NAME=redmine
@@ -69,6 +71,8 @@ services:
       - DB_USER=usr1234132
       - DB_PASS=mj2jir1ih
       - DB_NAME=gitlab
+
+      - REDIS_HOST=redis
 
       - TZ=America/Bogota
       - GITLAB_TIMEZONE=Bogota
