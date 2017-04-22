@@ -1,13 +1,29 @@
 version: '2'
 
+
 volumes:
+  redis:
+    driver: local
+
   postgresql:
     driver: local
 
   redmine:
     driver: local
 
+  gitlab:
+    driver: local
+
 services:
+  redis:
+    restart: always
+    image: sameersbn/redis:latest
+    command:
+      - --loglevel warning
+    volumes:
+      - redis:/var/lib/redis
+
+
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.6-2
