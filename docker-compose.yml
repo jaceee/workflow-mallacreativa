@@ -28,8 +28,7 @@ services:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
-      - DB_USER=usr1234132
-      - DB_PASS=mj2jir1ih
+      - PG_PASSWORD=mj2jir1ih
       - DB_NAME=redmine,gitlab
     volumes:
       - postgresql:/var/lib/postgresql
@@ -43,7 +42,7 @@ services:
       - DB_ADAPTER=postgresql
       - DB_HOST=postgresql
       - DB_PORT=5432
-      - DB_USER=usr1234132
+      - DB_USER=postgres
       - DB_PASS=mj2jir1ih
       - DB_NAME=redmine
 
@@ -66,7 +65,7 @@ services:
     image: sameersbn/gitlab:9.0.5
     environment:
       - DB_HOST=postgresql
-      - DB_USER=usr1234132
+      - DB_USER=postgres
       - DB_PASS=mj2jir1ih
       - DB_NAME=gitlab
 
