@@ -30,12 +30,9 @@ services:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
-      # - DB_USER=rdmn
-      # - DB_PASS=dIa84!j.g
-      # - DB_NAME=redmine
-      - DB_USER=gtlb
-      - DB_PASS=t/41f.1j8-1
-      - DB_NAME=gitlab
+      - DB_USER=rdmn
+      - DB_PASS=dIa84!j.g
+      - DB_NAME=redmine,gitlab
     volumes:
       - postgresql:/var/lib/postgresql
 
@@ -67,8 +64,8 @@ services:
     restart: always
     image: sameersbn/gitlab:9.0.5
     environment:
-      - DB_USER=gtlb
-      - DB_PASS=t/41f.1j8-1
+      - DB_USER=rdmn
+      - DB_PASS=dIa84!j.g
       - DB_NAME=gitlab
 
       - TZ=America/Bogota
@@ -122,6 +119,7 @@ services:
       - LDAP_ADMIN_PASSWORD=jr82kdf2kr
       - LDAP_TLS=true
       - LDAP_TLS_CRT_FILENAME=cert.pem
+      - LDAP_TLS_CA_CRT_FILENAME=chain.pem
       - LDAP_TLS_KEY_FILENAME=privkey.pem
       - LDAP_TLS_ENFORCE=true
     ports:
