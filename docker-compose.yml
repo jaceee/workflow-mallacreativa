@@ -20,8 +20,6 @@ services:
   redis:
     restart: always
     image: sameersbn/redis:latest
-    command:
-      - --loglevel warning
     volumes:
       - redis:/var/lib/redis
 
