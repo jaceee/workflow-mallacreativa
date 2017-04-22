@@ -28,9 +28,12 @@ services:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
-      - DB_USER=rdmn
-      - DB_PASS=dIa84!j.g
-      - DB_NAME=redmine
+      # - DB_USER=rdmn
+      # - DB_PASS=dIa84!j.g
+      # - DB_NAME=redmine
+      - DB_USER=gtlb
+      - DB_PASS=t/41f.1j8-1
+      - DB_NAME=gitlab
     volumes:
       - postgresql:/var/lib/postgresql
 
