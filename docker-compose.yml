@@ -13,6 +13,9 @@ volumes:
   gitea:
     driver: local
 
+  gitea_keys:
+    driver: local
+
 services:
   redis:
     restart: always
@@ -58,14 +61,53 @@ services:
 
   gitea:
     restart: always
-    image: gitea/gitea:latest
+    image: webhippie/gitea:latest
     environment:
-      - GITEA_CUSTOM=/custom
+      - GITEA_APP_NAME=Gitea Malla Creativa
+      - GITEA_RUN_MODE=prod
+      - GITEA_SERVER_PROTOCOL=http
+      - GITEA_SERVER_DOMAIN=git.mllcrtv.me
+      - GITEA_SERVER_ADDR=0.0.0.0
+      - GITEA_SERVER_PORT=3000
+      - GITEA_SSH_DISABLE=false
+      - GITEA_SSH_PORT=22
+      - GITEA_OFFLINE_MODE=false
+      - GITEA_GZIP_ENABLE=true
+      - GITEA_LANDING_PAGE=home
+      - GITEA_DATABASE_TYPE=postgres
+      - GITEA_DATABASE_PATH=
+      - GITEA_DATABASE_HOST=postgresql:5432
+      - GITEA_DATABASE_NAME=gitea
+      - GITEA_DATABASE_USERNAME=postgres
+      - GITEA_DATABASE_PASSWORD=mj2jir1ih
+      - GITEA_REGISTER_CONFIRM=true
+      # - GITEA_DISABLE_REGISTER=false
+      - GITEA_REQUIRE_SINGIN=true
+      - GITEA_NOTIFY_MAIL=true
+      # - GITEA_REVERSE_PROXY_AUTH=false
+      # - GITEA_REVERSE_PROXY_REGISTER=false
+      - GITEA_MAILER_ENABLED=true
+      - GITEA_MAILER_SUBJECT=Gitea
+      - GITEA_MAILER_HOST=mail.privateemail.com:587
+      - GITEA_MAILER_FROM=Gitea <system@mllcrtv.me>
+      - GITEA_MAILER_USERNAME=system@mllcrtv.me
+      - GITEA_MAILER_PASSWORD=mllcrtvsystem
+      - GITEA_OAUTH_ENABLED=true
+      - GITEA_GITHUB_ENABLED=true
+      - GITEA_GITHUB_CLIENT=45ed3463d21bd3a302fb
+      - GITEA_GITHUB_SECRET=24a08a6cf7eccc6ed26a7f9ef6b0a730661bb027
+      - GITEA_CACHE_ADAPTER=redis
+      - GITEA_CACHE_HOST=network=tcp,addr=redis:6379,db=1,pool_size=100,idle_timeout=180
+      - GITEA_SESSION_PROVIDER=redis
+      - GITEA_SESSION_CONFIG=network=tcp,addr=redis:6379,db=1,pool_size=100,idle_timeout=180
+      - GITEA_COOKIE_SECURE=true
+      - GITEA_SECRET_KEY=SRixhV6qC3
+      - CRON_ENABLED=true
     ports:
       - "10022:22"
     volumes:
-      - ./gitea:/custom:Z
-      - gitea:/data
+      - gitea:/var/lib/gitea
+      - gitea_keys:/etc/ssh/keys
 
   nginx:
     restart: always
