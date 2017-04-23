@@ -64,8 +64,8 @@ services:
     ports:
       - "10022:22"
     volumes:
+      - ./gitea:/custom:Z
       - gitea:/data
-      - ./gitea/conf/app.ini:/custom/conf/app.ini
 
   nginx:
     restart: always
