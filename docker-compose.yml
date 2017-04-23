@@ -10,7 +10,7 @@ volumes:
   redmine:
     driver: local
 
-  gitlab:
+  gitea:
     driver: local
 
 services:
@@ -20,13 +20,12 @@ services:
     volumes:
       - redis:/var/lib/redis
 
-
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
       - PG_PASSWORD=mj2jir1ih
-      - DB_NAME=redmine,gitlab
+      - DB_NAME=redmine,gitea
     volumes:
       - postgresql:/var/lib/postgresql
 
@@ -57,62 +56,16 @@ services:
     volumes:
       - redmine:/home/redmine/data
 
-  gitlab:
+  gitea:
     restart: always
-    image: sameersbn/gitlab:9.0.5
+    image: gitea/gitea:latest
     environment:
-      - DB_HOST=postgresql
-      - DB_USER=postgres
-      - DB_PASS=mj2jir1ih
-      - DB_NAME=gitlab
-
-      - REDIS_HOST=redis
-
-      - TZ=America/Bogota
-      - GITLAB_TIMEZONE=Bogota
-
-      - GITLAB_HTTPS=true
-
-      - GITLAB_HOST=git.mllcrtv.me
-      - GITLAB_PORT=443
-      - GITLAB_SSH_PORT=10022
-      - GITLAB_SECRETS_DB_KEY_BASE=jd92kg92mdgi2emrdwgi2ermdi2efmwdi2efjdwfi2ef
-      - GITLAB_SECRETS_SECRET_KEY_BASE=mfdi2efifi2efi2gwd92efmf9dwi2efidf92efm9
-      - GITLAB_SECRETS_OTP_KEY_BASE=sfi12wfdfmg9j9hhuyhsd2efinu8dnf280j307234ni
-
-      - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
-
-      - GITLAB_EMAIL=system@mllcrtv.me
-      - GITLAB_EMAIL_REPLY_TO=system@mllcrtv.me
-      - GITLAB_INCOMING_EMAIL_ADDRESS=system@mllcrtv.me
-
-      - GITLAB_BACKUP_SCHEDULE=daily
-      - GITLAB_BACKUP_EXPIRY=604800
-
-      - SMTP_HOST=mail.privateemail.com
-      - SMTP_USER=system@mllcrtv.me
-      - SMTP_PASS=mllcrtvsystem
-
-      - OAUTH_ALLOW_SSO=saml
-      - OAUTH_BLOCK_AUTO_CREATED_USERS=false
-      - OAUTH_AUTO_LINK_SAML_USER=true
-
-      - OAUTH_SAML_ASSERTION_CONSUMER_SERVICE_URL=https://git.mllcrtv.me/users/auth/saml/callback
-      - OAUTH_SAML_IDP_CERT_FINGERPRINT=5B:E9:BF:83:ED:B8:F8:1E:5F:09:1F:93:81:B3:C5:B5:36:E0:77:27
-      - OAUTH_SAML_IDP_SSO_TARGET_URL=https://mllcrtv.onelogin.com/trust/saml2/http-post/sso/650828
-      - OAUTH_SAML_ISSUER=https://git.mllcrtv.me
-      - OAUTH_SAML_LABEL=OneLogin
-      - OAUTH_SAML_NAME_IDENTIFIER_FORMAT=urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
-
-      - OAUTH_GITHUB_API_KEY=45ed3463d21bd3a302fb
-      - OAUTH_GITHUB_APP_SECRET=24a08a6cf7eccc6ed26a7f9ef6b0a730661bb027
-
-      - OAUTH_BITBUCKET_API_KEY=RG9dpPBhENPGCDNxkj
-      - OAUTH_BITBUCKET_APP_SECRET=2Nq3HR2SRq7PvmtFJYJd42YU5XM73UER
+      - GITEA_CUSTOM=/custom
     ports:
       - "10022:22"
     volumes:
-      - gitlab:/home/git/data
+      - gitea:/data
+      - ./gitea:/custom
 
   nginx:
     restart: always
