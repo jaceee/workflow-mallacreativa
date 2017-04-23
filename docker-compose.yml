@@ -10,10 +10,7 @@ volumes:
   redmine:
     driver: local
 
-  gitea:
-    driver: local
-
-  gitea_keys:
+  gitlab:
     driver: local
 
 services:
@@ -23,12 +20,13 @@ services:
     volumes:
       - redis:/var/lib/redis
 
+
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
       - PG_PASSWORD=mj2jir1ih
-      - DB_NAME=redmine,gitea
+      - DB_NAME=redmine,gitlab
     volumes:
       - postgresql:/var/lib/postgresql
 
@@ -59,55 +57,62 @@ services:
     volumes:
       - redmine:/home/redmine/data
 
-  gitea:
+  gitlab:
     restart: always
-    image: webhippie/gitea:latest
+    image: sameersbn/gitlab:9.0.5
     environment:
-      - GITEA_APP_NAME=Gitea Malla Creativa
-      - GITEA_RUN_MODE=prod
-      - GITEA_SERVER_PROTOCOL=http
-      - GITEA_SERVER_DOMAIN=git.mllcrtv.me
-      - GITEA_SERVER_ADDR=0.0.0.0
-      - GITEA_SERVER_PORT=3000
-      - GITEA_SSH_DISABLE=false
-      - GITEA_SSH_PORT=22
-      - GITEA_OFFLINE_MODE=false
-      - GITEA_GZIP_ENABLE=true
-      - GITEA_LANDING_PAGE=home
-      - GITEA_DATABASE_TYPE=postgres
-      - GITEA_DATABASE_PATH=
-      - GITEA_DATABASE_HOST=postgresql:5432
-      - GITEA_DATABASE_NAME=gitea
-      - GITEA_DATABASE_USERNAME=postgres
-      - GITEA_DATABASE_PASSWORD=mj2jir1ih
-      - GITEA_REGISTER_CONFIRM=true
-      # - GITEA_DISABLE_REGISTER=false
-      - GITEA_REQUIRE_SINGIN=true
-      - GITEA_NOTIFY_MAIL=true
-      # - GITEA_REVERSE_PROXY_AUTH=false
-      # - GITEA_REVERSE_PROXY_REGISTER=false
-      - GITEA_MAILER_ENABLED=true
-      - GITEA_MAILER_SUBJECT=Gitea
-      - GITEA_MAILER_HOST=mail.privateemail.com:587
-      - GITEA_MAILER_FROM=Gitea <system@mllcrtv.me>
-      - GITEA_MAILER_USERNAME=system@mllcrtv.me
-      - GITEA_MAILER_PASSWORD=mllcrtvsystem
-      - GITEA_OAUTH_ENABLED=true
-      - GITEA_GITHUB_ENABLED=true
-      - GITEA_GITHUB_CLIENT=45ed3463d21bd3a302fb
-      - GITEA_GITHUB_SECRET=24a08a6cf7eccc6ed26a7f9ef6b0a730661bb027
-      - GITEA_CACHE_ADAPTER=redis
-      - GITEA_CACHE_HOST=network=tcp,addr=redis:6379,db=1,pool_size=100,idle_timeout=180
-      - GITEA_SESSION_PROVIDER=redis
-      - GITEA_SESSION_CONFIG=network=tcp,addr=redis:6379,db=1,pool_size=100,idle_timeout=180
-      - GITEA_COOKIE_SECURE=true
-      - GITEA_SECRET_KEY=SRixhV6qC3
-      - CRON_ENABLED=true
+      - DB_HOST=postgresql
+      - DB_USER=postgres
+      - DB_PASS=mj2jir1ih
+      - DB_NAME=gitlab
+
+      - REDIS_HOST=redis
+
+      - TZ=America/Bogota
+      - GITLAB_TIMEZONE=Bogota
+
+      - GITLAB_HTTPS=true
+
+      - GITLAB_HOST=git.mllcrtv.me
+      - GITLAB_PORT=443
+      - GITLAB_SSH_PORT=10022
+      - GITLAB_SECRETS_DB_KEY_BASE=jd92kg92mdgi2emrdwgi2ermdi2efmwdi2efjdwfi2ef
+      - GITLAB_SECRETS_SECRET_KEY_BASE=mfdi2efifi2efi2gwd92efmf9dwi2efidf92efm9
+      - GITLAB_SECRETS_OTP_KEY_BASE=sfi12wfdfmg9j9hhuyhsd2efinu8dnf280j307234ni
+
+      - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+
+      - GITLAB_EMAIL=system@mllcrtv.me
+      - GITLAB_EMAIL_REPLY_TO=system@mllcrtv.me
+      - GITLAB_INCOMING_EMAIL_ADDRESS=system@mllcrtv.me
+
+      - GITLAB_BACKUP_SCHEDULE=daily
+      - GITLAB_BACKUP_EXPIRY=604800
+
+      - SMTP_HOST=mail.privateemail.com
+      - SMTP_USER=system@mllcrtv.me
+      - SMTP_PASS=mllcrtvsystem
+
+      - OAUTH_ALLOW_SSO=saml
+      - OAUTH_BLOCK_AUTO_CREATED_USERS=false
+      - OAUTH_AUTO_LINK_SAML_USER=true
+
+      - OAUTH_SAML_ASSERTION_CONSUMER_SERVICE_URL=https://git.mllcrtv.me/users/auth/saml/callback
+      - OAUTH_SAML_IDP_CERT_FINGERPRINT=5B:E9:BF:83:ED:B8:F8:1E:5F:09:1F:93:81:B3:C5:B5:36:E0:77:27
+      - OAUTH_SAML_IDP_SSO_TARGET_URL=https://mllcrtv.onelogin.com/trust/saml2/http-post/sso/650828
+      - OAUTH_SAML_ISSUER=https://git.mllcrtv.me
+      - OAUTH_SAML_LABEL=OneLogin
+      - OAUTH_SAML_NAME_IDENTIFIER_FORMAT=urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
+
+      - OAUTH_GITHUB_API_KEY=45ed3463d21bd3a302fb
+      - OAUTH_GITHUB_APP_SECRET=24a08a6cf7eccc6ed26a7f9ef6b0a730661bb027
+
+      - OAUTH_BITBUCKET_API_KEY=RG9dpPBhENPGCDNxkj
+      - OAUTH_BITBUCKET_APP_SECRET=2Nq3HR2SRq7PvmtFJYJd42YU5XM73UER
     ports:
       - "10022:22"
     volumes:
-      - gitea:/var/lib/gitea
-      - gitea_keys:/etc/ssh/keys
+      - gitlab:/home/git/data
 
   nginx:
     restart: always
