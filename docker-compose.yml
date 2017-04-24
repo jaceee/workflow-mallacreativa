@@ -122,4 +122,5 @@ services:
       - "443:443"
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./nginx/static:/static
       - ./certs:/certs
