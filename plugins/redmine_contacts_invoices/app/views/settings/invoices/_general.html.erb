@@ -1,0 +1,52 @@
+<p>
+  <label><%= l(:label_invoice_number_format) %></label>
+  <%= text_field_tag 'settings[invoices_invoice_number_format]', @settings["invoices_invoice_number_format"], :size => 60 %>
+  <br>
+	<em class="info">%%YEARLY_ID%%, %%MONTHLY_ID%%, %%DAILY_ID%%, %%ID%%, %%YEAR%%, %%MONTH%%, %%DAY%%</em>
+</p>
+
+
+<% if RedmineInvoices.rate_plugin_installed? %>
+<p>
+  <label><%= l(:label_invoice_use_rate_plugin) %></label>
+  <%= check_box_tag 'settings[invoices_use_rate_plugin]', 1, @settings["invoices_use_rate_plugin"] %>
+</p>
+<% end %>
+
+<p>
+  <label><%= l(:label_invoice_show_units) %></label>
+  <%= check_box_tag 'settings[show_units]', 1, @settings["show_units"] %>
+</p>
+
+<span id="tax_data">
+  <p>
+    <label><%= l(:label_invoice_discount_after_tax) %></label>
+    <%= check_box_tag 'settings[invoices_discount_after_tax]', 1, @settings["invoices_discount_after_tax"] %>
+  </p>
+
+</span>
+
+<p>
+  <label><%= l(:label_invoice_filter_companies) %></label>
+  <%= check_box_tag 'settings[invoices_select_companies]', 1, @settings["invoices_select_companies"] %>
+</p>
+
+<p>
+  <label><%= l(:label_crm_show_in_top_menu) %></label>
+  <span id="watchers_inputs">
+    <span class="floating" style="margin-left: 0px;">
+    <%= check_box_tag 'settings[invoices_show_invoices_in_top_menu]', 1, @settings["invoices_show_invoices_in_top_menu"] %>
+    <%= l(:label_invoice_plural) %>
+    </span>
+  </span>
+</p>
+
+<p>
+  <label><%= l(:label_crm_show_in_app_menu) %></label>
+  <span id="watchers_inputs">
+    <span class="floating" style="margin-left: 0px;">
+    <%= check_box_tag 'settings[invoices_show_in_app_menu]', 1, @settings["invoices_show_in_app_menu"] %>
+    <%= l(:label_invoice_plural) %>
+    </span>
+  </span>
+</p>
