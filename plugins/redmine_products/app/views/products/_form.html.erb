@@ -1,0 +1,47 @@
+<%= error_messages_for 'product' %>
+
+<div class="box tabular">
+
+<p class="avatar" id="watchers">
+	<%= product_image_tag(@product, :size => "64", :style => "vertical-align: middle;") %>
+	<%= link_to image_tag('delete.png'), attachment_path(@product.image),
+                                         :confirm => l(:text_are_you_sure),
+                                         :method => :delete,
+                                         :class => 'delete',
+										                     :style => "vertical-align: middle;",
+                                         :title => l(:button_delete) unless @product.image.blank? %>
+</p>
+<p class="extended"><%= label_tag l(:label_products_image) %> <%= file_field_tag 'product_image[file]', :size => 30, :id => nil  -%> </p>
+
+<div id="attributes" class="attributes">
+<p class="product-name"><%= f.text_field :name, :style => "width:95%;", :label => l(:label_products_name), :required => true %></p>
+
+<div class="splitcontentleft">
+  <p class="product-code"><%= f.text_field :code, :label => l(:label_products_code) %>
+    <% if @product.new_record? && @last_product_code %>
+    <br>
+    <em class="info"><%= l(:label_products_last_number, :code => @last_product_code) %></em>
+    <% end %>
+  </p>
+  <p class="product-status"><%= f.select :status_id, collection_product_statuses, :label => l(:label_products_status), :required => true %></p>
+</div>
+
+<div class="splitcontentright">
+  <% unless product_categories_for_select.blank? %>
+  <p class="category"><%= f.select :category_id, product_category_tree_options_for_select(product_categories_for_select, :selected => @product.category), :label => l(:label_products_category), :include_blank => true %></p>
+  <% end %>
+  <p class="price"><%= f.text_field :price, :label => l(:label_products_price), :size => 10 %>
+        <%= select_tag "product[currency]", options_for_select(collection_for_currencies_select(ContactsSetting.default_currency, ContactsSetting.major_currencies), @product.currency), :include_blank => true, :style => "width: initial;"  %>
+  </p>
+</div>
+</div>
+
+<div style="clear:both;"> </div>
+
+<p><%= f.text_area :description, :cols => 60, :rows => 10, :class => 'wiki-edit' %><%= wikitoolbar_for 'product_description' %></p>
+
+<p class="contacts-tags-edit">
+	 <%= text_field_tag 'product[tag_list]', "#{@product.tags.map(&:name).join(',').html_safe}", :size => 10, :class => 'hol', :id => "product_tag_list" %><%= tagsedit_with_source_for('#product_tag_list', auto_complete_taggable_tags_path(:project_id => @project, :taggable_type => "Product")) %>
+</p>
+
+</div>
