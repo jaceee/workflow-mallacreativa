@@ -1,8 +1,8 @@
 version: '2'
 
 volumes:
-  redis:
-    driver: local
+  # redis:
+  #   driver: local
 
   postgresql:
     driver: local
@@ -10,8 +10,8 @@ volumes:
   redmine:
     driver: local
 
-  gitlab:
-    driver: local
+  # gitlab:
+  #   driver: local
 
 services:
   # redis:
